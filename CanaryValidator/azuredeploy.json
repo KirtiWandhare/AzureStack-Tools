@@ -873,6 +873,23 @@
                     }
                 }
             }
+        },
+        {
+            "apiVersion": "[variables('apiVersion')]",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(concat(variables('VMNamePrefix'), '3'),'/DockerExtension')]",
+            "location": "[variables('location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/', variables('VMNamePrefix'), '3')]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Azure.Extensions",
+                "type": "DockerExtension",
+                "typeHandlerVersion": "1.0",
+                "autoUpgradeMinorVersion": true,
+                "settings": { },
+                "protectedSettings": { }
+            }
         }
     ]
 }
