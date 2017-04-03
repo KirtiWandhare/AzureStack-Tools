@@ -211,7 +211,7 @@ while ($runCount -le $NumberOfIterations)
         catch
         {
             Remove-Item -Path $CanaryCustomImageFolder -Force -Recurse
-            throw [System.Exception]"Failed to upload the linux image to PIR. `n$_.Exception.Message"
+            throw [System.Exception]"Failed to upload the linux image to PIR. `n$($_.Exception.Message)"
         }
     }
 
