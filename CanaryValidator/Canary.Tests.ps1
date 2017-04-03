@@ -91,11 +91,11 @@ param (
     [Parameter(ParameterSetName="tenant", Mandatory=$false)]
     [ValidateNotNullOrEmpty()]
     [string]$CanaryLogPath = $env:TMP + "\CanaryLogs$((Get-Date).Ticks)",
-	[parameter(HelpMessage="Specifies the file name for canary log file")]
+    [parameter(HelpMessage="Specifies the file name for canary log file")]
     [Parameter(ParameterSetName="default", Mandatory=$false)]
     [Parameter(ParameterSetName="tenant", Mandatory=$false)]
     [ValidateNotNullOrEmpty()]
-    [string]$CanaryLogFileName    
+    [string]$CanaryLogFileName = "Canary-Basic-$((Get-Date).Ticks).log"    
 )
 
 #Requires -Modules AzureRM
@@ -129,11 +129,15 @@ while ($runCount -le $NumberOfIterations)
     #
     # Start Canary 
     #
-    if (-not $CanaryLogFileName)
+    if ($fileExtension = [IO.Path]::GetExtension($CanaryLogFileName))
     {
-        $CanaryLogFileName  = "Canary-Basic-$runCount-$((Get-Date).Ticks).log"
-    }    
-    $CanaryLogFile      = $CanaryLogPath + "\$CanaryLogFileName"
+        $CanaryLogFileName.Replace($fileExtension, "-$runCount$fileExtension")
+    }        
+    else 
+    {
+        $CanaryLogFileName += "-$runCount"
+    }   
+    $CanaryLogFile = Join-Path $CanaryLogPath -ChildPath $CanaryLogFileName
 
     Start-Scenario -Name 'Canary' -Type 'Basic' -LogFilename $CanaryLogFile -ContinueOnFailure $ContinueOnFailure
 
