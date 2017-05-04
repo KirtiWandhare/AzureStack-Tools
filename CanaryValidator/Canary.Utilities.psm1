@@ -12,7 +12,7 @@ if (Test-Path -Path "$PSScriptRoot\..\WTTLog.ps1")
 
 $CurrentUseCase = @{}
 [System.Collections.Stack] $UseCaseStack = New-Object System.Collections.Stack
-filter timestamp {"$(Get-Date -Format "yyyy-MM-dd HH:mm:ss") $_"}
+filter timestamp {"$(Get-Date -Format "yyyy-MM-dd HH:mm:ss.ffff") $_"}
 
 
 function Log-Info
